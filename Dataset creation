@@ -1,0 +1,49 @@
+"""
+......author@PunithKumar
+"""
+
+import pandas as pd
+
+df=pd.read_csv("dataset/metadata.csv")
+
+df.head()
+
+import os
+import shutil
+
+data_path="dataset"
+covid_data="dataset/covid"
+
+# preaparing a directory for COVID cases
+
+for (i,row) in df.iterrows () :
+    
+    if(row["finding"]!="COVID-19" and row["finding"]!="COVID-19,ARDS") :
+        continue
+        
+    image=os.path.sep.join([data_path,'images',row["filename"]])
+    
+    if not os.path.exists(image):
+        continue
+    
+    filename=row["filename"].split(os.path.sep)[-1]
+    output=os.path.sep.join([covid_data, filename])
+    
+    shutil.copy2(image,output)
+   
+ # preaparing a directory for NORMAL cases
+ 
+normal_data="dataset/normal"
+for (i,row) in df.iterrows () :
+    
+    if(row["finding"]!="COVID-19" and row["finding"]!="COVID-19,ARDS") :
+        
+        image=os.path.sep.join([data_path,'images',row["filename"]])
+    
+    if not os.path.exists(image):
+        continue
+    
+    filename=row["filename"].split(os.path.sep)[-1]
+    output=os.path.sep.join([normal_data, filename])
+    
+    shutil.copy2(image,output)
