@@ -54,13 +54,13 @@ model=keras.Model(inputs=vgg.input,outputs=output)
 model.summary()
 
 #compiling the model
-  model.compile(loss='categorical_crossentropy',optimizer='adam',metrics='accuracy') 
+model.compile(loss='categorical_crossentropy',optimizer='adam',metrics='accuracy') 
 
 #Training the model
-  model.fit_generator(train_data,epochs=5,validation_data=val_data)
+model.fit_generator(train_data,epochs=5,validation_data=val_data)
 
 #Visualising Loss of the model 
-  loss=pd.DataFrame(model.history.history).plot()
+loss=pd.DataFrame(model.history.history).plot()
   
 #Fine tuning of entire model with a small learning rate
 
@@ -73,4 +73,4 @@ model.fit(x_train,y_train,epochs=10,validation_split=0.2)
 loss=pd.DataFrame(model.history.history).plot()
 
 # saving the model
-  model.save('x-ray_model.h5')
+model.save('x-ray_model.h5')
