@@ -1,3 +1,3 @@
-# COVID-19 prediction using  Chest x-ray 
-predicting the covid state of patient by using deep learning 
+#Pneumonia prediction using  Chest x-ray 
+predicting the Pneumonia state of patient by using deep learning 
 and image classification. 
