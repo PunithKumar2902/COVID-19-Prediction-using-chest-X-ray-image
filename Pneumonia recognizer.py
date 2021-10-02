@@ -9,7 +9,7 @@ import pandas as pd
 import tensorflow as tf
 import keras
 
-from keras.applications.resnet import ResNet152
+from keras.applications.vgg import VGG16
 from keras.preprocessing.image import ImageDataGenerator
 from keras.layers import Flatten,Dense
 
@@ -42,15 +42,15 @@ val_data = datagen.flow_from_directory('/content/chest_xray/val',
                                             
 #Building the Model
 
-rsn= ResNet152(input_shape=(224,224,3),include_top='False',weights='imagenet')
+vgg= VGG16(input_shape=(224,224,3),include_top='False',weights='imagenet')
 
-for layer in rsn.layers:
+for layer in vgg.layers:
   layer.trainable='False'
   
-x=Flatten()(rsn.output)
+x=Flatten()(vgg.output)
 output=Dense(len(folders),activation="softmax")(x)
 
-model=keras.Model(inputs=rsn.input,outputs=output)
+model=keras.Model(inputs=vgg.input,outputs=output)
 model.summary()
 
 #compiling the model
@@ -62,5 +62,15 @@ model.summary()
 #Visualising Loss of the model 
   loss=pd.DataFrame(model.history.history).plot()
   
+#Fine tuning of entire model with a small learning rate
+
+model.trainable=True
+
+model.compile(optimizer=keras.optimizers.Adam(1e-5),loss='sparse_categorical_crossentropy',metrics=['accuracy'])
+
+model.fit(x_train,y_train,epochs=10,validation_split=0.2)
+
+loss=pd.DataFrame(model.history.history).plot()
+
 # saving the model
   model.save('x-ray_model.h5')
