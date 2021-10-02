@@ -10,6 +10,6 @@ os.environ['KAGGLE_CONFIG_DIR']="/content/"
 
 ! kaggle datasets download -d  paultimothymooney/chest-xray-pneumonia
 
-#unzipping the zip files(if any)
+# unzipping the zip files(if any)
 
 ! unzip \*.zip && rm*.zip
